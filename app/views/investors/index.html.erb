@@ -1,0 +1,70 @@
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 20px;
+  }
+
+  h2, p {
+    color: #333;
+    margin: 0;
+  }
+
+  h1, h3 {
+    color: #333;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    color: #000; /* Set font color to black */
+  }
+
+  th {
+    background-color: #4CAF50;
+    color: white;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+</style>
+
+<h1>Investing Account</h1>
+
+<div class="balance-container">
+  <h2>$<%= @account_balance %></h2>
+  <p>Balance</p>
+</div>
+
+<h3>Past Transactions</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Transaction</th>
+      <th>Description</th>
+      <th>Amount</th>
+      <th>Balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @validated_ledger_records.each do |transaction| %>
+      <tr>
+        <td><%= transaction[:transaction_date] %></td>
+        <td><%= transaction[:transaction_type] %></td>
+        <td><%= transaction[:description] %></td>
+        <td><%= transaction[:amount] %></td>
+        <td><%= transaction[:balance] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
