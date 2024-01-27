@@ -27,13 +27,13 @@ class InvestorsController < ApplicationController
     activity_ids = []
     @validated_ledger_records = []
     @account_balance = 0.0
-    sorted_ledger_records.each do |record|
+    sorted_ledger_records.reverse.each do |record|
       if activity_ids.include?(record["activity_id"])
         next
       elsif %w[DEPOSIT REFUND].include?(record["type"])
         @account_balance += record["amount"]
         description = "Requested amount deposited/refunded from #{record["source"]["description"]} to #{record["destination"]["description"]}"
-        @validated_ledger_records << {transaction_date: record["date"],
+        @validated_ledger_records << {transaction_date: record["date"].to_date.strftime("%m/%d/%y"),
                                      transaction_type: record["type"],
                                      description: description,
                                      amount: record["amount"],
@@ -45,7 +45,7 @@ class InvestorsController < ApplicationController
         else
           @account_balance += record["amount"]
           description = "Requested amount withdrawl/transfered from #{record["source"]["description"]} to #{record["destination"]["description"]}"
-          @validated_ledger_records << {transaction_date: record["date"],
+          @validated_ledger_records << {transaction_date: record["date"].to_date.strftime("%m/%d/%y"),
                                      transaction_type: record["type"],
                                      description: description,
                                      amount: record["amount"],
@@ -54,7 +54,7 @@ class InvestorsController < ApplicationController
         activity_ids << record["activity_id"]
       elsif record["type"] = "INVESTMENT"
         description = "#{record["source"]["description"]} invested into #{record["destination"]["description"]}"
-        @validated_ledger_records << {transaction_date: record["date"],
+        @validated_ledger_records << {transaction_date: record["date"].to_date.strftime("%m/%d/%y"),
                                      transaction_type: record["type"],
                                      description: description,
                                      amount: record["amount"],
