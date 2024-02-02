@@ -3,7 +3,7 @@ class InvestorsController < ApplicationController
     # create new investor profile
   end
 
-  def show
+  def index
     # show all the investor's existing investment
     # InvestorInvestment.where(investor_id: @investor.id)
   end
@@ -20,8 +20,17 @@ class InvestorsController < ApplicationController
     # Transaction.where(relates_to_type: 'Investment').distinct(:relates_to_id).order(id: :desc)
   end
 
-  def index
-    data = File.read('../data/simple_ledger.json')
+  def show
+    case params[:id].to_i
+      when 1
+        data = File.read('../data/simple_ledger.json')
+      when 2
+        data = File.read('../data/duplicate_ledger.json')
+      when 3
+        data = File.read('../data/complicated_ledger.json')
+      else
+        data = File.read('../data/simple_ledger.json')
+    end
     response = JSON.parse(data)
     sorted_ledger_records = response.sort_by { |transaction| transaction["date"] }
     activity_ids = []
@@ -63,6 +72,5 @@ class InvestorsController < ApplicationController
         activity_ids << record["activity_id"]
       end
     end
-    # render 'show_ledger'
   end
 end
