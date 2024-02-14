@@ -23,13 +23,13 @@ class InvestorsController < ApplicationController
   def show
     case params[:id].to_i
       when 1
-        data = File.read('../data/simple_ledger.json')
+        data = File.read('data/simple_ledger.json')
       when 2
-        data = File.read('../data/duplicate_ledger.json')
+        data = File.read('data/duplicate_ledger.json')
       when 3
-        data = File.read('../data/complicated_ledger.json')
+        data = File.read('data/complicated_ledger.json')
       else
-        data = File.read('../data/simple_ledger.json')
+        data = File.read('data/simple_ledger.json')
     end
     response = JSON.parse(data)
     sorted_ledger_records = response.sort_by { |transaction| transaction["date"] }
